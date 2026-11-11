@@ -6,3 +6,4 @@ opencv-python
 pytesseract
 pydantic
 pdf2image
+python-dotenv

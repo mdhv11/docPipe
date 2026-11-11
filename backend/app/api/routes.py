@@ -3,9 +3,10 @@ import os
 import uuid
 from typing import List
 from tempfile import TemporaryDirectory
+from pathlib import Path
 
 from fastapi import APIRouter, BackgroundTasks, File, HTTPException, UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 
 from app.llm.llama_runner import LlamaCppClient
 from app.ocr.paddle import PaddleOcrExtractor
@@ -15,12 +16,18 @@ from app.routing.classifier import DocumentRouter
 from app.schemas.document_schema import DocumentParseResult
 from app.utils.paths import DATA_DIR, OUTPUT_DIR, UPLOAD_DIR
 from app.utils.batch_store import create_batch, get_batch_status, get_batch_results, update_batch_status
+from app.utils.status_store import write_status, read_status
 from app.utils.retry_utils import retry_with_backoff, retry_batch_operation
 
 router = APIRouter()
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 ocr_extractor = PaddleOcrExtractor()
 image_cleaner = ImageCleaner()
+docx_renderer = DocxRenderer()
 llama = LlamaCppClient(
     binary_path=os.getenv("LLAMA_CPP_BIN", "/usr/local/bin/llama"),
     model_path=os.getenv("LLAMA_CPP_MODEL", "/models/llama-2-7b.gguf"),

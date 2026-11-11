@@ -22,10 +22,11 @@ class LlamaCppClient:
             self.model_path,
             "--temp",
             str(self.temp),
-            "--n_predict",
+            "-n",
             str(self.n_predict),
-            "--repeat_penalty",
+            "--repeat-penalty",
             "1.1",
+            "-no-cnv",
             "--prompt",
             prompt,
         ]

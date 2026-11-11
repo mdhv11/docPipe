@@ -7,12 +7,12 @@ echo "Starting docPipe development environment..."
 
 # Check if virtual environment exists
 if [ ! -d "backend/.venv" ]; then
-    echo "Setting up Python virtual environment..."
-    cd backend
-    python3 -m venv .venv
-    source .venv/bin/activate
-    pip install -r requirements.txt
-    cd ..
+	echo "Setting up Python virtual environment..."
+	cd backend
+	python3 -m venv .venv
+	source .venv/bin/activate
+	pip install -r requirements.txt
+	cd ..
 fi
 
 # Start backend in background
